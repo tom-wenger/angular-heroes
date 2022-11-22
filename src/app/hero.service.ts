@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { MessagesService } from './messages.service';
@@ -7,32 +8,115 @@ import { MessagesService } from './messages.service';
 import { Hero } from './hero';
 import { HEROES } from './mock-heroes';
 
+const getAllHeroIdsGreaterThan16 = (heroes: Hero[]) =>
+  heroes.filter((h) => h.id > 16);
+
+// function getAllHeroIdsGreaterThan16(heroes: Hero[]) {
+//   return heroes.filter((h) => h.id > 16);
+// }
+
 @Injectable({
   providedIn: 'root',
 })
 export class HeroService {
   private heroesUrl = 'api/heroes'; // URL to web api
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
 
   constructor(
     private messageService: MessagesService,
     private http: HttpClient
   ) {}
 
-  getHeroes(): Observable<Hero[]> {
-    // const heroes = of(HEROES);
-    this.messageService.add('HeroService: Heroes fetched');
-    // return heroes;
-    return this.http.get<Hero[]>(this.heroesUrl);
+  getHeroes() {
+    const heroes = this.http.get<Hero[]>(this.heroesUrl).pipe(
+      // map(getAllHeroIdsGreaterThan16),
+      // filter((b) => b.length > 5),
+      // map((a) => a),
+      // map((heroes) => getAllHeroIdsGreaterThan16(heroes))
+      tap((a) => this.log('fetched heroes count is ' + a.length)),
+      catchError(this.handleError<Hero[]>('getHeroes', []))
+    );
+    return heroes;
+    // return this.http.get<Hero[]>(this.heroesUrl);
   }
 
+  /** GET hero by id. Will 404 if id not found */
   getHero(id: number): Observable<Hero> {
-    const hero = HEROES.find((h) => h.id === id)!;
-    this.messageService.add(`HeroService: Fetched Hero ID: ${id}`);
-    return of(hero);
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<Hero>(url).pipe(
+      tap((_) => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
+    );
+  }
+
+  /** PUT: update the hero on the server */
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
+      tap((_) => this.log(`updated hero id=${hero.id}`)),
+      catchError(this.handleError<any>('updateHero'))
+    );
+  }
+
+  /** POST: add a new hero to the server */
+  addHero(name: string): Observable<Hero> {
+    return this.http
+      .post<Hero>(this.heroesUrl, { name }, this.httpOptions)
+      .pipe(
+        tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+        catchError(this.handleError<Hero>('addHero'))
+      );
+  }
+
+  /** DELETE: delete the hero from the server */
+  deleteHero(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      tap((_) => this.log(`deleted hero id=${id}`)),
+      catchError(this.handleError<Hero>('deleteHero'))
+    );
+  }
+
+  /* GET heroes whose name contains search term */
+  searchHeroes(term: string): Observable<Hero[]> {
+    if (!term.trim()) {
+      // if not search term, return empty hero array.
+      return of([]);
+    }
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
+      tap((x) =>
+        x.length
+          ? this.log(`found heroes matching "${term}"`)
+          : this.log(`no heroes matching "${term}"`)
+      ),
+      catchError(this.handleError<Hero[]>('searchHeroes', []))
+    );
   }
 
   /** Log a HeroService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`HeroService: ${message}`);
+  }
+
+  /**
+   * Handle Http operation that failed.
+   * Let the app continue.
+   *
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      this.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 }
