@@ -53,7 +53,7 @@ export class HeroesComponent implements OnInit {
     private messageService: MessagesService
   ) {}
 
-  getHeroes(): void {
+  public getHeroes(): void {
     const fromServerStream$ = this.heroService.getHeroes();
 
     const requestOnRefreshStream$ = this.refreshButtonClicked$.pipe(
@@ -62,9 +62,32 @@ export class HeroesComponent implements OnInit {
       })
     );
 
+    function test(stream: Observable<string>) {
+      return stream.pipe(map((x) => x));
+    }
+
+    function checkValidHero() {
+      return function (newHeroName: Observable<string>) {
+        return newHeroName.pipe(
+          map((name) => name.trim()),
+          filter((name) => Boolean(name))
+        );
+      };
+    }
+
+    // Variante Arrow
+    const checkValidHero2 = () => (newHeroName: Observable<string>) =>
+      newHeroName.pipe(
+        map((name) => name.trim()),
+        filter((name) => Boolean(name))
+      );
+
     const addedHeroResult$ = this.addHero$.pipe(
-      map((name) => name.trim()),
-      filter((name) => Boolean(name)),
+      // x => x,
+      // map((name) => name.trim()),
+      // filter((name) => Boolean(name)),
+      (name) => test(name),
+      checkValidHero(),
       concatMap((name) => this.heroService.addHero(name)),
       map((hero) => makeAddHero(hero)),
       // map(hero => ({_tag: 'add-hero', hero} as AddHero)), //without Helpermethod
@@ -81,18 +104,26 @@ export class HeroesComponent implements OnInit {
 
     this.heroes$ = merge(
       fromServerStream$.pipe(
-        mergeMap((heroes) =>
-          merge(addedHeroResult$, deletedHeroResult$).pipe(
-            scan((heroes, action): Hero[] => {
-              switch (action._tag) {
-                case 'add-hero':
-                  return [...heroes, action.hero];
-                case 'delete-hero':
-                  return heroes.filter((hero) => hero.id != action.id);
-              }
-            }, heroes),
-            startWith(heroes)
-          )
+        mergeMap(
+          (heroes) =>
+            merge(addedHeroResult$, deletedHeroResult$).pipe(
+              this.heroesState(heroes)
+            )
+          // merge(addedHeroResult$, deletedHeroResult$).pipe(function (
+          //   source: Observable<AddHero | DeleteHero>
+          // ) {
+          //   return source.pipe(
+          //     scan((heroes, action): Hero[] => {
+          //       switch (action._tag) {
+          //         case 'add-hero':
+          //           return [...heroes, action.hero];
+          //         case 'delete-hero':
+          //           return heroes.filter((hero) => hero.id != action.id);
+          //       }
+          //     }, heroes),
+          //     startWith(heroes)
+          //   );
+          // })
         )
       ),
       requestOnRefreshStream$
@@ -109,5 +140,21 @@ export class HeroesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHeroes();
+  }
+
+  heroesState(heroes: Hero[]) {
+    return function (source: Observable<AddHero | DeleteHero>) {
+      return source.pipe(
+        scan((heroes, action): Hero[] => {
+          switch (action._tag) {
+            case 'add-hero':
+              return [...heroes, action.hero];
+            case 'delete-hero':
+              return heroes.filter((hero) => hero.id != action.id);
+          }
+        }, heroes),
+        startWith(heroes)
+      );
+    };
   }
 }
