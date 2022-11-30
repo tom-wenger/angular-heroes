@@ -87,6 +87,7 @@ export class HeroesComponent implements OnInit {
       // map((name) => name.trim()),
       // filter((name) => Boolean(name)),
       (name) => test(name),
+      test,
       checkValidHero(),
       concatMap((name) => this.heroService.addHero(name)),
       map((hero) => makeAddHero(hero)),
