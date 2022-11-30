@@ -3,6 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
+import { concatMap, filter, map, merge, Observable, Subject, tap } from 'rxjs';
+
+function makeHero(id: number, name: string): Hero {
+  return { id, name };
+}
 
 @Component({
   selector: 'app-hero-detail',
@@ -10,7 +15,8 @@ import { HeroService } from '../hero.service';
   styleUrls: ['./hero-detail.component.scss'],
 })
 export class HeroDetailComponent implements OnInit {
-  hero?: Hero;
+  hero$?: Observable<Hero>;
+  updateHero$ = new Subject<string>();
 
   constructor(
     private route: ActivatedRoute,
@@ -19,18 +25,26 @@ export class HeroDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getHero();
-  }
-
-  getHero() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.heroService.getHero(id).subscribe((hero) => (this.hero = hero));
+
+    const updatedHeroResult$ = this.updateHero$.pipe(
+      map((name) => name.trim()),
+      filter((name) => Boolean(name)),
+      map((name) => makeHero(id, name)),
+      concatMap((hero) =>
+        this.heroService.updateHero(hero).pipe(map(() => hero))
+      ),
+      tap((x) => {
+        console.log('after updating', x);
+        this.location.back();
+      })
+    );
+
+    this.hero$ = merge(this.heroService.getHero(id), updatedHeroResult$);
   }
 
-  save() {
-    if (this.hero) {
-      this.heroService.updateHero(this.hero).subscribe(() => this.goBack());
-    }
+  save(name: string) {
+    this.updateHero$.next(name);
   }
 
   goBack() {

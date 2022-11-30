@@ -1,11 +1,13 @@
-<div *ngIf="hero">
-  <h2>{{ hero.name | uppercase }} Details</h2>
-  <div>id: {{ hero.id }}</div>
+<ng-container *ngIf="hero$ | async as hero; else loading">
+  <h2>{{ hero.name }} Details</h2>
   <div>
     <label for="hero-name">Hero name: </label>
-    <input id="hero-name" [(ngModel)]="hero.name" placeholder="name" />
+    <!-- <input id="hero-name" [(ngModel)]="hero.name" placeholder="name" /> -->
+    <input type="text" #inputName value="{{ hero.name }}" placeholder="name" />
   </div>
-</div>
 
-<button type="button" (click)="save()">Save</button>
-<button type="button" (click)="goBack()">Go Back</button>
+  <button type="button" (click)="save(inputName.value)">Save</button>
+  <button type="button" (click)="goBack()">Go Back</button>
+</ng-container>
+<ng-template #loading><h2>loading hero...</h2></ng-template>
+<!-- <h2 *ngIf="updatedHeroResult$ | async as update">{{  }}</h2> -->
