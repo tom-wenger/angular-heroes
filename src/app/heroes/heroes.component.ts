@@ -67,7 +67,7 @@ export class HeroesComponent implements OnInit {
     }
 
     function checkValidHero() {
-      return function (newHeroName: Observable<string>) {
+      return function (newHeroName: Observable<string>): Observable<string> {
         return newHeroName.pipe(
           map((name) => name.trim()),
           filter((name) => Boolean(name))
@@ -76,19 +76,23 @@ export class HeroesComponent implements OnInit {
     }
 
     // Variante Arrow
-    const checkValidHero2 = () => (newHeroName: Observable<string>) =>
-      newHeroName.pipe(
-        map((name) => name.trim()),
-        filter((name) => Boolean(name))
-      );
+    const checkValidHero2 =
+      () =>
+      (newHeroName: Observable<string>): Observable<string> =>
+        newHeroName.pipe(
+          map((name) => name.trim()),
+          filter((name) => Boolean(name))
+        );
 
     const addedHeroResult$ = this.addHero$.pipe(
+      //Pipe erwartet eine Funktion, die einen Stream zurückgibt
       // x => x,
       // map((name) => name.trim()),
       // filter((name) => Boolean(name)),
       (name) => test(name),
       test,
       checkValidHero(),
+      checkValidHero2(),
       concatMap((name) => this.heroService.addHero(name)),
       map((hero) => makeAddHero(hero)),
       // map(hero => ({_tag: 'add-hero', hero} as AddHero)), //without Helpermethod
