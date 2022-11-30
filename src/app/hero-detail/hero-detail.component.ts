@@ -5,9 +5,9 @@ import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { concatMap, filter, map, merge, Observable, Subject, tap } from 'rxjs';
 
-function makeHero(id: number, name: string): Hero {
-  return { id, name };
-}
+// function makeHero(id: number, name: string): Hero {
+//   return { id, name };
+// }
 
 @Component({
   selector: 'app-hero-detail',
@@ -26,21 +26,18 @@ export class HeroDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.hero$ = this.heroService.getHero(id);
 
     const updatedHeroResult$ = this.updateHero$.pipe(
       map((name) => name.trim()),
       filter((name) => Boolean(name)),
-      map((name) => makeHero(id, name)),
-      concatMap((hero) =>
-        this.heroService.updateHero(hero).pipe(map(() => hero))
-      ),
+      concatMap((name) => this.heroService.updateHero({ id, name })),
       tap((x) => {
         console.log('after updating', x);
-        this.location.back();
       })
     );
 
-    this.hero$ = merge(this.heroService.getHero(id), updatedHeroResult$);
+    updatedHeroResult$.subscribe(() => this.goBack());
   }
 
   save(name: string) {

@@ -6,14 +6,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessagesService } from './messages.service';
 
 import { Hero } from './hero';
-import { HEROES } from './mock-heroes';
-
-const getAllHeroIdsGreaterThan16 = (heroes: Hero[]) =>
-  heroes.filter((h) => h.id > 16);
-
-// function getAllHeroIdsGreaterThan16(heroes: Hero[]) {
-//   return heroes.filter((h) => h.id > 16);
-// }
 
 @Injectable({
   providedIn: 'root',
@@ -31,15 +23,10 @@ export class HeroService {
 
   getHeroes() {
     const heroes = this.http.get<Hero[]>(this.heroesUrl).pipe(
-      // map(getAllHeroIdsGreaterThan16),
-      // filter((b) => b.length > 5),
-      // map((a) => a),
-      // map((heroes) => getAllHeroIdsGreaterThan16(heroes))
       tap((a) => this.log('fetched heroes count is ' + a.length)),
       catchError(this.handleError<Hero[]>('getHeroes', []))
     );
     return heroes;
-    // return this.http.get<Hero[]>(this.heroesUrl);
   }
 
   /** GET hero by id. Will 404 if id not found */

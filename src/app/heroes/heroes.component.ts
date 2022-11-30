@@ -39,12 +39,9 @@ type Action = AddHero | DeleteHero;
   styleUrls: ['./heroes.component.scss'],
 })
 export class HeroesComponent implements OnInit {
-  heroes: Hero[] = [];
-
   public heroes$!: Observable<Hero[]>;
   public addHero$ = new Subject<string>();
   public deleteHero$ = new Subject<Hero>();
-  public action$ = new Subject<Action>();
 
   refreshButtonClicked$ = new EventEmitter();
 
@@ -62,43 +59,16 @@ export class HeroesComponent implements OnInit {
       })
     );
 
-    function test(stream: Observable<string>) {
-      return stream.pipe(map((x) => x));
-    }
-
-    function checkValidHero() {
-      return function (newHeroName: Observable<string>): Observable<string> {
-        return newHeroName.pipe(
-          map((name) => name.trim()),
-          filter((name) => Boolean(name))
-        );
-      };
-    }
-
-    // Variante Arrow
-    const checkValidHero2 =
-      () =>
-      (newHeroName: Observable<string>): Observable<string> =>
-        newHeroName.pipe(
-          map((name) => name.trim()),
-          filter((name) => Boolean(name))
-        );
-
+    // Stream from Add-Button --> Callt den heroService
     const addedHeroResult$ = this.addHero$.pipe(
-      //Pipe erwartet eine Funktion, die einen Stream zurückgibt
-      // x => x,
-      // map((name) => name.trim()),
-      // filter((name) => Boolean(name)),
-      (name) => test(name),
-      test,
-      checkValidHero(),
-      checkValidHero2(),
+      this.filterHero,
       concatMap((name) => this.heroService.addHero(name)),
       map((hero) => makeAddHero(hero)),
       // map(hero => ({_tag: 'add-hero', hero} as AddHero)), //without Helpermethod
       tap((x) => console.log('after addhero', x))
     );
 
+    // Stream from Delete-Button --> Callt den heroService
     const deletedHeroResult$ = this.deleteHero$.pipe(
       concatMap((hero) =>
         this.heroService.deleteHero(hero.id).pipe(map(() => hero))
@@ -107,28 +77,13 @@ export class HeroesComponent implements OnInit {
       tap((x) => console.log('after deleting', x))
     );
 
+    //Main Stream
     this.heroes$ = merge(
       fromServerStream$.pipe(
-        mergeMap(
-          (heroes) =>
-            merge(addedHeroResult$, deletedHeroResult$).pipe(
-              this.heroesState(heroes)
-            )
-          // merge(addedHeroResult$, deletedHeroResult$).pipe(function (
-          //   source: Observable<AddHero | DeleteHero>
-          // ) {
-          //   return source.pipe(
-          //     scan((heroes, action): Hero[] => {
-          //       switch (action._tag) {
-          //         case 'add-hero':
-          //           return [...heroes, action.hero];
-          //         case 'delete-hero':
-          //           return heroes.filter((hero) => hero.id != action.id);
-          //       }
-          //     }, heroes),
-          //     startWith(heroes)
-          //   );
-          // })
+        mergeMap((heroes) =>
+          merge(addedHeroResult$, deletedHeroResult$).pipe(
+            this.heroesState(heroes)
+          )
         )
       ),
       requestOnRefreshStream$
@@ -147,6 +102,7 @@ export class HeroesComponent implements OnInit {
     this.getHeroes();
   }
 
+  // Unterscheidet mit den Discriminated-Uniontypes zwischen Add und Delete
   heroesState(heroes: Hero[]) {
     return function (source: Observable<AddHero | DeleteHero>) {
       return source.pipe(
@@ -161,5 +117,12 @@ export class HeroesComponent implements OnInit {
         startWith(heroes)
       );
     };
+  }
+
+  filterHero(heroName: Observable<string>): Observable<string> {
+    return heroName.pipe(
+      map((name) => name.trim()),
+      filter((name) => Boolean(name))
+    );
   }
 }
