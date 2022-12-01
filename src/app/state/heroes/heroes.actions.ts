@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { Hero } from 'src/app/hero';
 
 export const addHero = createAction(
   '[Heros] Add Hero',
@@ -11,4 +12,13 @@ export const deleteHero = createAction(
 export const updateHero = createAction(
   '[Heros] Update Hero',
   props<{ id: number; name: string }>()
+);
+export const loadHeroes = createAction('[Heros] Load Heroes');
+export const loadHeroesSuccess = createAction(
+  '[Heroes API] Heroes Load Success',
+  props<{ heroes: Hero[] }>()
+);
+export const loadHeroesFailure = createAction(
+  '[Heros API] Heroes Load Failure',
+  props<{ error: string }>()
 );

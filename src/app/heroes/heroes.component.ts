@@ -16,11 +16,13 @@ import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { MessagesService } from '../messages.service';
 import { Store } from '@ngrx/store';
-import { addHero, deleteHero } from '../state/heroes.actions';
+import * as storeActions from '../state/heroes/heroes.actions';
+import { selectAllHeroes } from '../state/heroes/heroes.selector';
+import { AppState } from '../state/app.state';
 
-const arr = [1, 2, 3];
-const n = arr.reduce((agg, v) => agg + v, 0);
-const m = arr.reduce((agg, v) => [...agg, v], [] as number[]);
+// const arr = [1, 2, 3];
+// const n = arr.reduce((agg, v) => agg + v, 0);
+// const m = arr.reduce((agg, v) => [...agg, v], [] as number[]);
 
 @Component({
   selector: 'app-heroes',
@@ -28,18 +30,19 @@ const m = arr.reduce((agg, v) => [...agg, v], [] as number[]);
   styleUrls: ['./heroes.component.scss'],
 })
 export class HeroesComponent implements OnInit {
-  heroes: Hero[] = [];
-  heroes$!: Observable<Hero[]>;
+  // heroes: Hero[] = [];
+  heroes$: Observable<Hero[]> = this.store.select(selectAllHeroes);
 
   constructor(
     private heroService: HeroService,
     private messageService: MessagesService,
-    private store: Store<{ heroes: Hero[] }>
+    private store: Store<AppState>
   ) {}
 
   getHeroes(): void {
     // this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
-    this.heroes$ = this.store.select('heroes'); //.pipe(map((state) => state.names));
+    //this.heroes$ = this.store.select(selectAllHeroes); //.pipe(map((state) => state.names));
+    this.store.dispatch(storeActions.loadHeroes());
   }
 
   add(name: string): void {
@@ -48,14 +51,14 @@ export class HeroesComponent implements OnInit {
       return;
     }
     this.store.dispatch(
-      addHero({
+      storeActions.addHero({
         name: name,
       })
     );
   }
 
   delete(hero: Hero): void {
-    this.store.dispatch(deleteHero({ id: hero.id }));
+    this.store.dispatch(storeActions.deleteHero({ id: hero.id }));
   }
 
   ngOnInit(): void {
