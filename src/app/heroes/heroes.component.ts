@@ -41,8 +41,10 @@ export class HeroesComponent implements OnInit {
 
   getHeroes(): void {
     // this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
-    //this.heroes$ = this.store.select(selectAllHeroes); //.pipe(map((state) => state.names));
-    this.store.dispatch(storeActions.loadHeroes());
+    // this.heroes$ = this.store.select(selectAllHeroes); //.pipe(map((state) => state.names));
+    this.heroes$.pipe(filter((heroes) => heroes.length === 0)).subscribe(() => {
+      this.store.dispatch(storeActions.loadHeroes());
+    });
   }
 
   add(name: string): void {

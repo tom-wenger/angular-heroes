@@ -11,3 +11,8 @@ export const selectAllHeroes = createSelector(
   selectHeroes,
   (state: HeroState) => state.heroes
 );
+
+export const selectSingleHero = createSelector(
+  selectHeroes,
+  (state: HeroState) => state.selectedHero
+);

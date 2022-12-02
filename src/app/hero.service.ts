@@ -31,10 +31,6 @@ export class HeroService {
 
   getHeroes() {
     const heroes = this.http.get<Hero[]>(this.heroesUrl).pipe(
-      // map(getAllHeroIdsGreaterThan16),
-      // filter((b) => b.length > 5),
-      // map((a) => a),
-      // map((heroes) => getAllHeroIdsGreaterThan16(heroes))
       tap((a) => this.log('fetched heroes count is ' + a.length)),
       catchError(this.handleError<Hero[]>('getHeroes', []))
     );
@@ -60,11 +56,13 @@ export class HeroService {
   }
 
   /** POST: add a new hero to the server */
-  addHero(hero: Hero): Observable<Hero> {
-    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
-      catchError(this.handleError<Hero>('addHero'))
-    );
+  addHero(name: string): Observable<Hero> {
+    return this.http
+      .post<Hero>(this.heroesUrl, { name }, this.httpOptions)
+      .pipe(
+        tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+        catchError(this.handleError<Hero>('addHero'))
+      );
   }
 
   /** DELETE: delete the hero from the server */
