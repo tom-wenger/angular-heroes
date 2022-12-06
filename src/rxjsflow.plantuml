@@ -1,0 +1,6 @@
+@startuml hey
+A -> B : hello
+
+
+@enduml
+

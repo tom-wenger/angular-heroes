@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, tap } from 'rxjs/operators';
+import { catchError, delay, filter, map, switchMap, tap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { MessagesService } from './messages.service';
@@ -48,6 +48,15 @@ export class HeroService {
 
   /** POST: add a new hero to the server */
   addHero(name: string): Observable<Hero> {
+    // return of(null).pipe(
+    //   delay(10000),
+    //   switchMap(x =>
+    //     this.http.post<Hero>(this.heroesUrl, { name }, this.httpOptions).pipe(
+    //       tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+    //       catchError(this.handleError<Hero>('addHero'))
+    //     )
+    //   )
+    // );
     return this.http
       .post<Hero>(this.heroesUrl, { name }, this.httpOptions)
       .pipe(

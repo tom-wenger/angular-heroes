@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import {
+  concat,
   concatMap,
   filter,
   map,
@@ -39,7 +40,7 @@ type Action = AddHero | DeleteHero;
   styleUrls: ['./heroes.component.scss'],
 })
 export class HeroesComponent implements OnInit {
-  public heroes$!: Observable<Hero[]>;
+  public heroes$: Observable<Hero[]>;
   public addHero$ = new Subject<string>();
   public deleteHero$ = new Subject<Hero>();
 
@@ -48,20 +49,17 @@ export class HeroesComponent implements OnInit {
   constructor(
     private heroService: HeroService,
     private messageService: MessagesService
-  ) {}
-
-  public getHeroes(): void {
-    const fromServerStream$ = this.heroService.getHeroes();
-
-    const requestOnRefreshStream$ = this.refreshButtonClicked$.pipe(
-      switchMap(() => {
-        return this.heroService.getHeroes();
-      })
+  ) {
+    const fromServerStream$ = concat(
+      this.heroService.getHeroes(),
+      this.refreshButtonClicked$.pipe(
+        switchMap(() => this.heroService.getHeroes())
+      )
     );
 
     // Stream from Add-Button --> Callt den heroService
     const addedHeroResult$ = this.addHero$.pipe(
-      this.filterHero,
+      filterHero,
       concatMap((name) => this.heroService.addHero(name)),
       map((hero) => makeAddHero(hero)),
       // map(hero => ({_tag: 'add-hero', hero} as AddHero)), //without Helpermethod
@@ -78,15 +76,14 @@ export class HeroesComponent implements OnInit {
     );
 
     //Main Stream
-    this.heroes$ = merge(
-      fromServerStream$.pipe(
-        mergeMap((heroes) =>
-          merge(addedHeroResult$, deletedHeroResult$).pipe(
-            this.heroesState(heroes)
-          )
+    this.heroes$ = fromServerStream$.pipe(
+      switchMap((initialHeroes) =>
+        merge(addedHeroResult$, deletedHeroResult$).pipe(
+          // this.heroesState(heroes)
+          scan(stateReducer, initialHeroes),
+          startWith(initialHeroes)
         )
-      ),
-      requestOnRefreshStream$
+      )
     );
   }
 
@@ -98,31 +95,45 @@ export class HeroesComponent implements OnInit {
     this.deleteHero$.next(hero);
   }
 
-  ngOnInit(): void {
-    this.getHeroes();
-  }
+  ngOnInit(): void {}
 
   // Unterscheidet mit den Discriminated-Uniontypes zwischen Add und Delete
-  heroesState(heroes: Hero[]) {
-    return function (source: Observable<AddHero | DeleteHero>) {
-      return source.pipe(
-        scan((heroes, action): Hero[] => {
-          switch (action._tag) {
-            case 'add-hero':
-              return [...heroes, action.hero];
-            case 'delete-hero':
-              return heroes.filter((hero) => hero.id != action.id);
-          }
-        }, heroes),
-        startWith(heroes)
-      );
-    };
-  }
+  // heroesState(initialHeroes: Hero[]) {
+  //   return function (source: Observable<Action>) {
+  //     return source.pipe(
+  //       scan((heroes, action): Hero[] => {
+  //         switch (action._tag) {
+  //           case 'add-hero':
+  //             return [...heroes, action.hero];
+  //           case 'delete-hero':
+  //             return heroes.filter((hero) => hero.id != action.id);
+  //         }
+  //       }, initialHeroes),
+  //       startWith(initialHeroes)
+  //     );
+  //   };
+  // }
 
-  filterHero(heroName: Observable<string>): Observable<string> {
-    return heroName.pipe(
-      map((name) => name.trim()),
-      filter((name) => Boolean(name))
-    );
+  // filterHero(heroName: Observable<string>): Observable<string> {
+  //   return heroName.pipe(
+  //     map((name) => name.trim()),
+  //     filter((name) => Boolean(name))
+  //   );
+  // }
+}
+
+function stateReducer(heroes: Hero[], action: Action): Hero[] {
+  switch (action._tag) {
+    case 'add-hero':
+      return [...heroes, action.hero];
+    case 'delete-hero':
+      return heroes.filter((hero) => hero.id !== action.id);
   }
+}
+
+function filterHero(heroName: Observable<string>): Observable<string> {
+  return heroName.pipe(
+    map((name) => name.trim()),
+    filter((name) => Boolean(name))
+  );
 }
