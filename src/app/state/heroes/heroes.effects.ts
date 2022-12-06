@@ -35,7 +35,9 @@ export class HeroEffects {
         this.heroService.getHero(loadSingleHeroAction.id).pipe(
           map((hero) => storeActions.loadSingleHeroSuccess(hero)),
 
-          catchError((error) => of(storeActions.loadHeroesFailure({ error })))
+          catchError((error) =>
+            of(storeActions.loadSingleHeroFailure({ error }))
+          )
         )
       )
     )
@@ -70,7 +72,7 @@ export class HeroEffects {
           map(() =>
             storeActions.deleteHeroSuccess({ id: deleteHeroAction.id })
           ),
-          catchError((error) => of(storeActions.addHeroFailure({ error })))
+          catchError((error) => of(storeActions.deleteHeroFailure({ error })))
         )
       )
     )
@@ -90,7 +92,7 @@ export class HeroEffects {
                 name: updateHeroAction.name,
               })
             ),
-            catchError((error) => of(storeActions.addHeroFailure({ error })))
+            catchError((error) => of(storeActions.updateHeroFailure({ error })))
           )
       )
     )

@@ -36,12 +36,24 @@ export const heroesReducer = createReducer(
   on(actions.addHeroSuccess, (state, { id, name }) => {
     return { ...state, heroes: [...state.heroes, { id: id, name: name }] };
   }),
+  //ADD FAILURE
+  on(actions.addHeroFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: 'error',
+  })),
   //DELETE
   on(actions.deleteHero, (state) => ({ ...state })),
   //DELETE SUCCESS
   on(actions.deleteHeroSuccess, (state, { id }) => {
     return { ...state, heroes: state.heroes.filter((hero) => hero.id !== id) };
   }),
+  //DELETE FAILURE
+  on(actions.deleteHeroFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: 'error',
+  })),
   //UPDATE
   on(actions.updateHero, (state) => ({ ...state })),
   //UPDATE SUCESS
@@ -53,6 +65,12 @@ export const heroesReducer = createReducer(
       ),
     };
   }),
+  //UPDATE FAILURE
+  on(actions.updateHeroFailure, (state, { error }) => ({
+    ...state,
+    error: error,
+    status: 'error',
+  })),
   //LOAD ALL
   on(actions.loadHeroes, (state) => ({ ...state, status: 'pending' })),
   //LOAD SUCCESS

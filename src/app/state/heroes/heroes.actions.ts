@@ -38,7 +38,7 @@ export const updateHeroSuccess = createAction(
 );
 export const updateHeroFailure = createAction(
   '[Heroes API] Update Hero Failure',
-  props<{ id: number; name: string }>()
+  props<{ error: string }>()
 );
 //LOAD ALL
 export const loadHeroes = createAction('[Heros API] Load Heroes');
