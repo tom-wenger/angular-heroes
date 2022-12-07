@@ -96,32 +96,9 @@ export class HeroesComponent implements OnInit {
   }
 
   ngOnInit(): void {}
-
-  // Unterscheidet mit den Discriminated-Uniontypes zwischen Add und Delete
-  // heroesState(initialHeroes: Hero[]) {
-  //   return function (source: Observable<Action>) {
-  //     return source.pipe(
-  //       scan((heroes, action): Hero[] => {
-  //         switch (action._tag) {
-  //           case 'add-hero':
-  //             return [...heroes, action.hero];
-  //           case 'delete-hero':
-  //             return heroes.filter((hero) => hero.id != action.id);
-  //         }
-  //       }, initialHeroes),
-  //       startWith(initialHeroes)
-  //     );
-  //   };
-  // }
-
-  // filterHero(heroName: Observable<string>): Observable<string> {
-  //   return heroName.pipe(
-  //     map((name) => name.trim()),
-  //     filter((name) => Boolean(name))
-  //   );
-  // }
 }
 
+// Unterscheidet mit den Discriminated-Uniontypes zwischen Add und Delete
 function stateReducer(heroes: Hero[], action: Action): Hero[] {
   switch (action._tag) {
     case 'add-hero':
@@ -137,3 +114,20 @@ function filterHero(heroName: Observable<string>): Observable<string> {
     filter((name) => Boolean(name))
   );
 }
+
+// alte stateReducer function
+// heroesState(initialHeroes: Hero[]) {
+//   return function (source: Observable<Action>) {
+//     return source.pipe(
+//       scan((heroes, action): Hero[] => {
+//         switch (action._tag) {
+//           case 'add-hero':
+//             return [...heroes, action.hero];
+//           case 'delete-hero':
+//             return heroes.filter((hero) => hero.id != action.id);
+//         }
+//       }, initialHeroes),
+//       startWith(initialHeroes)
+//     );
+//   };
+// }
