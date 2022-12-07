@@ -60,8 +60,11 @@ export class HeroService {
     return this.http
       .post<Hero>(this.heroesUrl, { name }, this.httpOptions)
       .pipe(
-        tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
-        catchError(this.handleError<Hero>('addHero'))
+        tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`))
+        // map(() => {
+        //   throw new Error('sdf');
+        // })
+        // catchError(throw new Error('sdf');)
       );
   }
 
@@ -105,8 +108,9 @@ export class HeroService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
+      console.log('from handelError', result);
       // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+      // console.error(error); // log to console instead
 
       // TODO: better job of transforming error for user consumption
       this.log(`${operation} failed: ${error.message}`);

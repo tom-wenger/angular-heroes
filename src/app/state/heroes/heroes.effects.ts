@@ -50,13 +50,20 @@ export class HeroEffects {
         ofType(storeActions.addHero),
         switchMap((newHeroAction) =>
           this.heroService.addHero(newHeroAction.name).pipe(
-            map((newHero) =>
-              storeActions.addHeroSuccess({
+            // tap((x) => console.log(x)),
+            map((newHero) => {
+              console.log(newHero);
+              return storeActions.addHeroSuccess({
                 id: newHero.id,
                 name: newHero.name,
-              })
-            ),
-            catchError((error) => of(storeActions.addHeroFailure({ error })))
+              });
+            }),
+            catchError((error) => {
+              console.log('from CatchError', error);
+              const e2 =
+                error instanceof Error ? error : new Error('unknown error');
+              return of(storeActions.addHeroFailure({ error: e2.message }));
+            })
           )
         )
       )
