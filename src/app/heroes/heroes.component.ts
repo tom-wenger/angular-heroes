@@ -2,10 +2,8 @@ import { Component, EventEmitter, OnInit } from '@angular/core';
 import {
   concat,
   concatMap,
-  filter,
   map,
   merge,
-  mergeMap,
   Observable,
   scan,
   startWith,
@@ -13,6 +11,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { filterHero } from '../functions';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { MessagesService } from '../messages.service';
@@ -106,13 +105,6 @@ function stateReducer(heroes: Hero[], action: Action): Hero[] {
     case 'delete-hero':
       return heroes.filter((hero) => hero.id !== action.id);
   }
-}
-
-function filterHero(heroName: Observable<string>): Observable<string> {
-  return heroName.pipe(
-    map((name) => name.trim()),
-    filter((name) => Boolean(name))
-  );
 }
 
 // alte stateReducer function

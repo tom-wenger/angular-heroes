@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="_HI-ZCXc5aMtmLZJUmlw" name="Page-1">
-        <mxGraphModel dx="1645" dy="1067" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="#666666" math="0" shadow="0">
+        <mxGraphModel dx="1750" dy="1312" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="#666666" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -83,39 +83,54 @@
                         <mxPoint x="-21.5" y="57" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="8" value="" style="edgeStyle=orthogonalEdgeStyle;shape=flexArrow;rounded=1;sketch=0;html=1;shadow=1;fontSize=17;fontColor=#33FF33;strokeWidth=3;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="JtPhZTcKICCbWqP8Aqum-11" target="JtPhZTcKICCbWqP8Aqum-26">
+                <mxCell id="8" value="" style="edgeStyle=orthogonalEdgeStyle;shape=flexArrow;rounded=1;sketch=0;html=1;shadow=1;fontSize=17;fontColor=#33FF33;strokeWidth=3;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="JtPhZTcKICCbWqP8Aqum-11" target="JtPhZTcKICCbWqP8Aqum-26" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="486" y="161" as="sourcePoint"/>
                         <mxPoint x="609" y="277" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="9" value="" style="edgeStyle=orthogonalEdgeStyle;shape=flexArrow;rounded=1;sketch=0;html=1;shadow=1;fontSize=17;fontColor=#33FF33;strokeWidth=3;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fillColor=#60a917;strokeColor=#2D7600;" edge="1" parent="1" source="JtPhZTcKICCbWqP8Aqum-22" target="JtPhZTcKICCbWqP8Aqum-26">
+                <mxCell id="9" value="" style="edgeStyle=orthogonalEdgeStyle;shape=flexArrow;rounded=1;sketch=0;html=1;shadow=1;fontSize=17;fontColor=#33FF33;strokeWidth=3;entryX=0.5;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fillColor=#60a917;strokeColor=#2D7600;" parent="1" source="JtPhZTcKICCbWqP8Aqum-22" target="JtPhZTcKICCbWqP8Aqum-26" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="131" y="104" as="sourcePoint"/>
                         <mxPoint x="254" y="220" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="12" value="= heroes$:&amp;nbsp;" style="whiteSpace=wrap;html=1;fontSize=17;" vertex="1" parent="1">
+                <mxCell id="12" value="= heroes$:&amp;nbsp;" style="whiteSpace=wrap;html=1;fontSize=17;" parent="1" vertex="1">
                     <mxGeometry x="219" y="376" width="264" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="13" style="edgeStyle=none;html=1;fontSize=17;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="JtPhZTcKICCbWqP8Aqum-26" target="14">
+                <mxCell id="13" style="edgeStyle=none;html=1;fontSize=17;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="JtPhZTcKICCbWqP8Aqum-26" target="14" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-11" y="34" as="sourcePoint"/>
                         <mxPoint x="351" y="255" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="14" value="scan() -&amp;gt; Aufgrund Uniontypes unterscheiden und Hero[] neu aufbauen&amp;nbsp;" style="whiteSpace=wrap;html=1;fontSize=17;fillColor=#eeeeee;strokeColor=#36393d;fontColor=#000000;" vertex="1" parent="1">
+                <mxCell id="14" value="scan() -&amp;gt; Aufgrund discriminated Uniontypes unterscheiden und Hero[] neu aufbauen&amp;nbsp;" style="whiteSpace=wrap;html=1;fontSize=17;fillColor=#eeeeee;strokeColor=#36393d;fontColor=#000000;" parent="1" vertex="1">
                     <mxGeometry x="206.5" y="245" width="289" height="69" as="geometry"/>
                 </mxCell>
-                <mxCell id="18" value="" style="edgeStyle=orthogonalEdgeStyle;shape=flexArrow;rounded=1;sketch=0;html=1;shadow=1;fontSize=17;fontColor=#33FF33;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fillColor=#60a917;strokeColor=#2D7600;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="14" target="12">
+                <mxCell id="18" value="" style="edgeStyle=orthogonalEdgeStyle;shape=flexArrow;rounded=1;sketch=0;html=1;shadow=1;fontSize=17;fontColor=#33FF33;strokeWidth=3;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fillColor=#60a917;strokeColor=#2D7600;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="14" target="12" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="353" y="363" as="sourcePoint"/>
                         <mxPoint x="473" y="508" as="targetPoint"/>
                         <Array as="points"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="19" value="&lt;div style=&quot;color: rgb(212 , 212 , 212) ; background-color: rgb(30 , 30 , 30) ; font-family: &amp;#34;consolas&amp;#34; , &amp;#34;courier new&amp;#34; , monospace ; font-size: 14px ; line-height: 19px&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;interface&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;AddHero&lt;/span&gt; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;: &lt;span style=&quot;color: #ce9178&quot;&gt;'add-hero'&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;hero&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;Hero&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;const&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa&quot;&gt;makeAddHero&lt;/span&gt; = (&lt;span style=&quot;color: #9cdcfe&quot;&gt;hero&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;Hero&lt;/span&gt;): &lt;span style=&quot;color: #4ec9b0&quot;&gt;AddHero&lt;/span&gt; &lt;span style=&quot;color: #569cd6&quot;&gt;=&amp;gt;&lt;/span&gt;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; ({ &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #ce9178&quot;&gt;'add-hero'&lt;/span&gt;, &lt;span style=&quot;color: #9cdcfe&quot;&gt;hero&lt;/span&gt; });&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;interface&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;DeleteHero&lt;/span&gt; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;: &lt;span style=&quot;color: #ce9178&quot;&gt;'delete-hero'&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;id&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;number&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;const&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa&quot;&gt;makeDeleteHero&lt;/span&gt; = (&lt;span style=&quot;color: #9cdcfe&quot;&gt;id&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;number&lt;/span&gt;): &lt;span style=&quot;color: #4ec9b0&quot;&gt;DeleteHero&lt;/span&gt; &lt;span style=&quot;color: #569cd6&quot;&gt;=&amp;gt;&lt;/span&gt; ({&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #ce9178&quot;&gt;'delete-hero'&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;id&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;});&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;type&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;Action&lt;/span&gt; = &lt;span style=&quot;color: #4ec9b0&quot;&gt;AddHero&lt;/span&gt; | &lt;span style=&quot;color: #4ec9b0&quot;&gt;DeleteHero&lt;/span&gt;;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;resizable=0;autosize=1;align=left;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;fontColor=#33FF33;" vertex="1" parent="1">
+                <mxCell id="19" value="&lt;div style=&quot;color: rgb(212 , 212 , 212) ; background-color: rgb(30 , 30 , 30) ; font-family: &amp;#34;consolas&amp;#34; , &amp;#34;courier new&amp;#34; , monospace ; font-size: 14px ; line-height: 19px&quot;&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;interface&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;AddHero&lt;/span&gt; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;: &lt;span style=&quot;color: #ce9178&quot;&gt;'add-hero'&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;hero&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;Hero&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;const&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa&quot;&gt;makeAddHero&lt;/span&gt; = (&lt;span style=&quot;color: #9cdcfe&quot;&gt;hero&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;Hero&lt;/span&gt;): &lt;span style=&quot;color: #4ec9b0&quot;&gt;AddHero&lt;/span&gt; &lt;span style=&quot;color: #569cd6&quot;&gt;=&amp;gt;&lt;/span&gt;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp; ({ &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #ce9178&quot;&gt;'add-hero'&lt;/span&gt;, &lt;span style=&quot;color: #9cdcfe&quot;&gt;hero&lt;/span&gt; });&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;interface&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;DeleteHero&lt;/span&gt; {&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;: &lt;span style=&quot;color: #ce9178&quot;&gt;'delete-hero'&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;id&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;number&lt;/span&gt;;&lt;/div&gt;&lt;div&gt;}&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;const&lt;/span&gt; &lt;span style=&quot;color: #dcdcaa&quot;&gt;makeDeleteHero&lt;/span&gt; = (&lt;span style=&quot;color: #9cdcfe&quot;&gt;id&lt;/span&gt;: &lt;span style=&quot;color: #4ec9b0&quot;&gt;number&lt;/span&gt;): &lt;span style=&quot;color: #4ec9b0&quot;&gt;DeleteHero&lt;/span&gt; &lt;span style=&quot;color: #569cd6&quot;&gt;=&amp;gt;&lt;/span&gt; ({&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;_tag&lt;/span&gt;&lt;span style=&quot;color: #9cdcfe&quot;&gt;:&lt;/span&gt; &lt;span style=&quot;color: #ce9178&quot;&gt;'delete-hero'&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;&amp;nbsp; &lt;span style=&quot;color: #9cdcfe&quot;&gt;id&lt;/span&gt;,&lt;/div&gt;&lt;div&gt;});&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;span style=&quot;color: #569cd6&quot;&gt;type&lt;/span&gt; &lt;span style=&quot;color: #4ec9b0&quot;&gt;Action&lt;/span&gt; = &lt;span style=&quot;color: #4ec9b0&quot;&gt;AddHero&lt;/span&gt; | &lt;span style=&quot;color: #4ec9b0&quot;&gt;DeleteHero&lt;/span&gt;;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;resizable=0;autosize=1;align=left;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;fontColor=#33FF33;" parent="1" vertex="1">
                     <mxGeometry x="631" y="171" width="418" height="327" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Button" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="-55" y="-217" width="45" height="18" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" style="edgeStyle=none;html=1;exitX=0.482;exitY=0.785;exitDx=0;exitDy=0;fontSize=17;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="20" target="JtPhZTcKICCbWqP8Aqum-15">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint y="-190" as="targetPoint"/>
+                        <mxPoint x="-11" y="-106" as="sourcePoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="24" style="edgeStyle=none;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="22" target="4">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="Button" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="712" y="-220" width="45" height="18" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
