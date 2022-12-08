@@ -1,25 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  concatMap,
-  filter,
-  map,
-  merge,
-  mergeMap,
-  Observable,
-  scan,
-  startWith,
-  Subject,
-  switchMap,
-  withLatestFrom,
-} from 'rxjs';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { MessagesService } from '../messages.service';
-
-const arr = [1, 2, 3];
-const n = arr.reduce((agg, v) => agg + v, 0);
-const m = arr.reduce((agg, v) => [...agg, v], [] as number[]);
-
 @Component({
   selector: 'app-heroes',
   templateUrl: './heroes.component.html',
@@ -55,6 +37,5 @@ export class HeroesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHeroes();
-    // this.newHero$.subscribe((x) => console.log(x));
   }
 }
